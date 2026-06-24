@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import transaction_route, summary_route, ranking_route
@@ -5,12 +7,14 @@ from database.connection import engine
 from models.user import Base as UserBase
 from models.transaction import Base as TransactionBase
 from models.user_stats import Base as StatsBase
+import dotenv
+dotenv.load_dotenv()
 
 app = FastAPI(title="Digital Risk API")
-
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=FRONTEND_URL,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
